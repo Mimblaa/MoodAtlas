@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from transformers import pipeline
 from langdetect import detect
 from googletrans import Translator
+import logging
+
 
 app = FastAPI()
 
@@ -38,7 +40,8 @@ def analyze_mood(entry: MoodEntry):
         try:
             translated = translator.translate(text, src=lang, dest="en")
             text = translated.text
-        except Exception:
+        except Exception as e:
+            logging.error(f"Translation failed: {e}")
             pass  # fallback: use original text if translation fails
     results = emotion_classifier(text)[0]
     best = max(results, key=lambda x: x['score'])
