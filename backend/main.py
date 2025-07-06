@@ -1,19 +1,26 @@
 import logging
 import datetime
+import os
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from transformers import pipeline
 from langdetect import detect
 from googletrans import Translator
-
 from db import SessionLocal, User, MoodEntryDB, EmotionAnalysis
+from dotenv import load_dotenv
+
+
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
+load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, '.env'))
+FRONTEND_ORIGINS = os.getenv("FRONTEND_ORIGINS", "http://localhost:3000").split(",")
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Frontend address
+    allow_origins=FRONTEND_ORIGINS,  # Configurable frontend origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

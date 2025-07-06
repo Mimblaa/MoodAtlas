@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-function UserSelect({ onUserSelected }) {
+function UserSelect({ onUserSelected, apiUrl }) {
   const [users, setUsers] = useState([]);
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/users")
+    fetch(`${apiUrl}/users`)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
@@ -28,7 +28,7 @@ function UserSelect({ onUserSelected }) {
   const handleCreate = async (e) => {
     e.preventDefault();
     if (!username.trim()) return;
-    const res = await fetch("http://localhost:8000/users", {
+    const res = await fetch(`${apiUrl}/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username }),

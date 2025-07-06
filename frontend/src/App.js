@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+
 import UserSelect from "./UserSelect";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -9,7 +11,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) return;
-    const res = await fetch("http://localhost:8000/analyze", {
+    const res = await fetch(`${API_URL}/analyze`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +24,7 @@ function App() {
 
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial" }}>
-      <UserSelect onUserSelected={setUser} />
+      <UserSelect onUserSelected={setUser} apiUrl={API_URL} />
       {user && (
         <>
           <div style={{ marginBottom: "1rem" }}>
