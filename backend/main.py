@@ -39,14 +39,6 @@ class MoodEntry(BaseModel):
     content: str
     user_id: int | None = None
 
-class MoodEntryInDB(BaseModel):
-    id: int
-    user_id: int | None
-    entry_text: str
-    entry_date: datetime.date
-    created_at: datetime.datetime
-    class Config:
-        orm_mode = True
 
 emotion_classifier = pipeline(
     "text-classification",
