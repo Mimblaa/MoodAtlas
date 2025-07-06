@@ -28,15 +28,23 @@ function UserSelect({ onUserSelected }) {
   const handleCreate = async (e) => {
     e.preventDefault();
     if (!username.trim()) return;
-    const res = await fetch("http://localhost:8000/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username }),
-    });
-    const user = await res.json();
-    setUsers((prev) => [...prev, user]);
-    setUsername("");
-    onUserSelected(user);
+    try {
+      const res = await fetch("http://localhost:8000/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username }),
+      });
+      if (!res.ok) {
+        setError("Failed to create user. Please try again.");
+        return;
+      }
+      const user = await res.json();
+      setUsers((prev) => [...prev, user]);
+      setUsername("");
+      onUserSelected(user);
+    } catch (err) {
+      setError("An error occurred while creating the user.");
+    }
   };
 
   if (loading) return <div>Loading users...</div>;
