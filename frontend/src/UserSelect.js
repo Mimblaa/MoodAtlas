@@ -17,7 +17,7 @@ function UserSelect({ onUserSelected, apiUrl }) {
         setError("Could not fetch users");
         setLoading(false);
       });
-  }, []);
+  }, [apiUrl]);
 
   const handleSelect = (e) => {
     const userId = e.target.value;
