@@ -60,7 +60,9 @@ function UserSelect({ onUserSelected, apiUrl }) {
         <div>No users found. Create a new one below.</div>
       )}
       <form onSubmit={handleCreate} style={{ marginTop: "1rem" }}>
+        <label htmlFor="new-username">Enter new username:</label>
         <input
+          id="new-username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
